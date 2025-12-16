@@ -16,64 +16,68 @@
             margin: 0;
             overflow: hidden;
             position: relative;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
         .card {
             background-color: #020617;
             border: 2px solid #334155;
-            border-radius: 16px;
-            padding: 32px;
-            max-width: 420px;
+            border-radius: 20px;
+            padding: 40px;
+            width: 90vw;
+            max-width: 700px;
             text-align: center;
-            box-shadow: 0 0 30px rgba(56, 189, 248, 0.3);
+            box-shadow: 0 0 40px rgba(56, 189, 248, 0.4);
             transition: transform 0.3s ease;
         }
 
         .card:hover {
-            transform: scale(1.03);
+            transform: scale(1.02);
         }
 
         h1 {
             color: #38bdf8;
-            margin-bottom: 8px;
-            font-size: 2rem;
-            text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+            margin-bottom: 12px;
+            font-size: 2.5rem;
+            text-shadow: 0 0 15px rgba(56, 189, 248, 0.6);
         }
 
         .subtitle {
             color: #94a3b8;
-            margin-bottom: 24px;
+            margin-bottom: 28px;
+            font-size: 1.1rem;
         }
 
         .message {
             background-color: #0f172a;
             border: 1px dashed #475569;
-            padding: 20px;
-            margin: 24px 0;
-            border-radius: 10px;
+            padding: 24px;
+            margin: 28px 0;
+            border-radius: 12px;
             min-height: 80px;
             color: #a5f3fc;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
         }
 
         .buttons {
             display: flex;
-            gap: 16px;
+            gap: 20px;
             justify-content: center;
-            margin-top: 20px;
+            margin-top: 24px;
             flex-wrap: wrap;
         }
 
         button {
-            padding: 14px 28px;
+            padding: 16px 32px;
             font-family: 'Courier New', monospace;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: bold;
             border: none;
-            border-radius: 12px;
+            border-radius: 14px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.5);
         }
 
         .btn-accept {
@@ -82,8 +86,8 @@
         }
 
         .btn-accept:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.5);
         }
 
         .btn-reject {
@@ -92,29 +96,77 @@
         }
 
         .btn-reject:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.5);
+        }
+
+        .btn-play {
+            background: linear-gradient(45deg, #a78bfa, #c4b5fd);
+            color: white;
+            margin-top: 24px;
+            padding: 18px 36px;
+            font-size: 1.3rem;
         }
 
         .emoji-big {
-            font-size: 4rem;
-            margin: 20px 0;
+            font-size: 5rem;
+            margin: 24px 0;
             animation: float 3s ease-in-out infinite;
         }
 
         @keyframes float {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
+            50% { transform: translateY(-20px); }
         }
 
         footer {
-            margin-top: 24px;
-            font-size: 0.85rem;
+            margin-top: 28px;
+            font-size: 0.9rem;
             color: #64748b;
         }
 
         .hidden {
             display: none;
+        }
+
+        #game-container {
+            margin-top: 40px;
+            padding: 24px;
+            background: #0f172a;
+            border-radius: 16px;
+            border: 2px solid #475569;
+        }
+
+        #canvas {
+            background: #1e293b;
+            border: 3px solid #38bdf8;
+            border-radius: 12px;
+            box-shadow: 0 0 30px rgba(56, 189, 248, 0.5);
+            display: block;
+            margin: 0 auto;
+        }
+
+        #score {
+            font-size: 1.8rem;
+            color: #34d399;
+            margin-bottom: 16px;
+            font-weight: bold;
+        }
+
+        #game-info {
+            color: #94a3b8;
+            margin-top: 16px;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .card {
+                padding: 30px 20px;
+                width: 95vw;
+            }
+            h1 { font-size: 2rem; }
+            .emoji-big { font-size: 4rem; }
+            #canvas { width: 350px !important; height: 350px !important; }
         }
     </style>
 </head>
@@ -130,49 +182,82 @@
             Presiona un botón para continuar el protocolo de entrega...
         </div>
 
-        <div class="buttons">
+        <div class="buttons" id="initial-buttons">
             <button class="btn-accept" id="accept">✅ ACEPTAR SNACK</button>
             <button class="btn-reject" id="reject">❌ RECHAZAR</button>
         </div>
 
-        <div id="final-message" class="hidden message" style="margin-top: 20px; color: #34d399; font-weight: bold;">
-            ¡SNACK APROBADO! 🍪⚡<br>
-            <span style="font-size: 1.3rem;">10g sin culpa activados para Wilbert 😎</span><br><br>
-            Disfruta responsablemente.
+        <div id="final-message" class="hidden">
+            <div class="message" style="color: #34d399; font-weight: bold;">
+                ¡SNACK APROBADO! 🍪⚡<br>
+                <span style="font-size: 1.4rem;">10g sin culpa activados para Wilbert 😎</span><br><br>
+                ¡Come <strong>10 galletas virtuales</strong> para completar el snack perfecto!
+            </div>
+
+            <button class="btn-play" id="play-game">🎮 JUGAR SNAKE (10 GALLETAS)</button>
+
+            <div id="game-container" class="hidden">
+                <div id="score">Puntuación: 0 / 10</div>
+                <canvas id="canvas" width="500" height="500"></canvas>
+                <p id="game-info">Usa las flechas ←↑→↓ o WASD para moverte 🐍🍪</p>
+            </div>
         </div>
 
         <footer>
-            // Protocolo secreto ejecutado • Build v1.0 • Snack confirmado ✔️
+            // Protocolo secreto ejecutado • Build v3.0 • 10g + Game confirmado ✔️
         </footer>
     </div>
 
-    <!-- Confeti simple con canvas -->
-    <canvas id="confetti"></canvas>
+    <canvas id="confetti-canvas" style="position: fixed; top: 0; left: 0; pointer-events: none; z-index: 1000;"></canvas>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script>
         const message = document.getElementById('message');
         const acceptBtn = document.getElementById('accept');
         const rejectBtn = document.getElementById('reject');
+        const initialButtons = document.getElementById('initial-buttons');
         const finalMessage = document.getElementById('final-message');
-        const buttons = document.querySelector('.buttons');
+        const playBtn = document.getElementById('play-game');
+        const gameContainer = document.getElementById('game-container');
+        const scoreDisplay = document.getElementById('score');
+        const gameInfo = document.getElementById('game-info');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Ajustar canvas en móvil
+        function resizeCanvas() {
+            if (window.innerWidth < 768) {
+                canvas.width = 350;
+                canvas.height = 350;
+            } else {
+                canvas.width = 500;
+                canvas.height = 500;
+            }
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
 
         let rejectCount = 0;
+        const GOAL = 10;
+
+        // Confeti setup
+        const confettiCanvas = document.getElementById('confetti-canvas');
+        confettiCanvas.width = window.innerWidth;
+        confettiCanvas.height = window.innerHeight;
 
         acceptBtn.onclick = function() {
             message.textContent = "Procesando aceptación... 🍪";
-            buttons.classList.add('hidden');
+            initialButtons.classList.add('hidden');
             
             setTimeout(() => {
                 message.classList.add('hidden');
                 finalMessage.classList.remove('hidden');
                 
-                // ¡Confeti!
                 confetti({
-                    particleCount: 150,
-                    spread: 70,
+                    particleCount: 250,
+                    spread: 100,
                     origin: { y: 0.6 },
-                    colors: ['#38bdf8', '#10b981', '#a5f3fc', '#34d399']
+                    colors: ['#38bdf8', '#10b981', '#a5f3fc', '#34d399', '#fBBf24', '#ef4444']
                 });
             }, 1000);
         };
@@ -188,8 +273,165 @@
             } else {
                 message.textContent = "¡Acepta de una vez que se enfrían! 😭";
                 rejectBtn.textContent = "Bueno... aceptar 🥺";
+                rejectBtn.className = 'btn-accept';
             }
         };
+
+        // --- JUEGO SNAKE ---
+        const gridSize = 20;
+        let tileCount = canvas.width / gridSize;
+
+        let snake = [{x: 12, y: 12}];
+        let food = {x: 18, y: 18};
+        let dx = 0;
+        let dy = 0;
+        let score = 0;
+        let gameInterval;
+        let gameRunning = false;
+
+        function drawGame() {
+            ctx.fillStyle = '#1e293b';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Serpiente 🐍
+            snake.forEach((segment, index) => {
+                ctx.font = `${gridSize}px monospace`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                if (index === 0) {
+                    ctx.fillText('🟢', segment.x * gridSize + gridSize/2, segment.y * gridSize + gridSize/2);
+                } else {
+                    ctx.fillText('🟩', segment.x * gridSize + gridSize/2, segment.y * gridSize + gridSize/2);
+                }
+            });
+
+            // Galleta 🍪
+            ctx.font = `${gridSize}px monospace`;
+            ctx.fillText('🍪', food.x * gridSize + gridSize/2, food.y * gridSize + gridSize/2);
+        }
+
+        function updateGame() {
+            if (dx === 0 && dy === 0) return;
+
+            const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+
+            // Colisión paredes
+            if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount) {
+                gameOver();
+                return;
+            }
+
+            // Colisión propia
+            if (snake.some(segment => segment.x === head.x && segment.y === head.y)) {
+                gameOver();
+                return;
+            }
+
+            snake.unshift(head);
+
+            // Comer
+            if (head.x === food.x && head.y === food.y) {
+                score++;
+                scoreDisplay.textContent = `Puntuación: ${score} / ${GOAL}`;
+                
+                // Nueva galleta (evitar serpiente)
+                do {
+                    food = {
+                        x: Math.floor(Math.random() * tileCount),
+                        y: Math.floor(Math.random() * tileCount)
+                    };
+                } while (snake.some(segment => segment.x === food.x && segment.y === food.y));
+
+                // Confeti al comer
+                confetti({
+                    particleCount: 50,
+                    spread: 70,
+                    origin: { x: 0.5, y: 0.75 },
+                    colors: ['#fBBf24', '#34d399']
+                });
+
+                // ¡VICTORIA!
+                if (score >= GOAL) {
+                    clearInterval(gameInterval);
+                    gameRunning = false;
+                    confetti({
+                        particleCount: 300,
+                        angle: 60,
+                        spread: 55,
+                        origin: { x: 0 },
+                        colors: ['#38bdf8', '#10b981']
+                    });
+                    confetti({
+                        particleCount: 300,
+                        angle: 120,
+                        spread: 55,
+                        origin: { x: 1 },
+                        colors: ['#a5f3fc', '#34d399']
+                    });
+                    gameInfo.innerHTML = `¡ÉXITO TOTAL! 🎉 Has comido ${score} galletas 🍪<br>¡10g SIN CULPA completados! 😎<br><button onclick="location.reload()" style="background: linear-gradient(45deg, #10b981, #34d399); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px;">🔄 Jugar de nuevo</button>`;
+                    scoreDisplay.textContent = `¡GANASTE! ${score} galletas`;
+                    return;
+                }
+            } else {
+                snake.pop();
+            }
+
+            drawGame();
+        }
+
+        function gameOver() {
+            clearInterval(gameInterval);
+            gameRunning = false;
+            alert(`¡Game Over! 😵\nPuntuación: ${score} / ${GOAL} galletas 🍪\n¡Sigue intentando llegar a 10g!`);
+            resetGame();
+        }
+
+        function resetGame() {
+            snake = [{x: Math.floor(tileCount/2), y: Math.floor(tileCount/2)}];
+            food = {x: Math.floor(tileCount * 0.7), y: Math.floor(tileCount * 0.7)};
+            dx = 0;
+            dy = 0;
+            score = 0;
+            scoreDisplay.textContent = `Puntuación: ${score} / ${GOAL}`;
+            gameInfo.innerHTML = 'Usa las flechas ←↑→↓ o WASD para moverte 🐍🍪';
+            drawGame();
+        }
+
+        playBtn.onclick = function() {
+            gameContainer.classList.remove('hidden');
+            resetGame();
+            gameRunning = true;
+            gameInterval = setInterval(updateGame, 140); // Velocidad divertida
+        };
+
+        // Controles
+        document.addEventListener('keydown', e => {
+            if (!gameRunning) return;
+            switch (e.key) {
+                case 'ArrowUp':
+                case 'w':
+                case 'W':
+                    if (dy !== 1) { dx = 0; dy = -1; }
+                    break;
+                case 'ArrowDown':
+                case 's':
+                case 'S':
+                    if (dy !== -1) { dx = 0; dy = 1; }
+                    break;
+                case 'ArrowLeft':
+                case 'a':
+                case 'A':
+                    if (dx !== 1) { dx = -1; dy = 0; }
+                    break;
+                case 'ArrowRight':
+                case 'd':
+                case 'D':
+                    if (dx !== -1) { dx = 1; dy = 0; }
+                    break;
+            }
+        });
+
+        drawGame();
     </script>
 </body>
 </html>
