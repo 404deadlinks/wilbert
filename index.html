@@ -2,213 +2,162 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Snack Secreto para Wilbert</title>
+    <title>Snack Secreto Épico para Wilbert</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        :root {
+            --primary: #38bdf8;
+            --success: #10b981;
+            --danger: #ef4444;
+            --bg: #0f172a;
+            --card: #020617;
+        }
         body {
             font-family: 'Courier New', monospace;
             background: linear-gradient(135deg, #0f172a, #1e293b);
             color: #e5e7eb;
+            min-height: 100vh;
+            margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            overflow: hidden;
-            position: relative;
-            padding: 20px;
-            box-sizing: border-box;
+            padding: 15px;
+            overflow-x: hidden;
         }
-
         .card {
-            background-color: #020617;
-            border: 2px solid #334155;
-            border-radius: 20px;
-            padding: 40px;
-            width: 90vw;
-            max-width: 700px;
+            background: var(--card);
+            border: 3px solid #334155;
+            border-radius: 24px;
+            padding: 40px 25px;
+            width: 100%;
+            max-width: 720px;
             text-align: center;
-            box-shadow: 0 0 40px rgba(56, 189, 248, 0.4);
-            transition: transform 0.3s ease;
+            box-shadow: 0 0 60px rgba(56,189,248,0.5);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
         }
-
-        .card:hover {
-            transform: scale(1.02);
-        }
-
+        .card:hover { transform: translateY(-8px); }
         h1 {
-            color: #38bdf8;
-            margin-bottom: 12px;
-            font-size: 2.5rem;
-            text-shadow: 0 0 15px rgba(56, 189, 248, 0.6);
+            color: var(--primary);
+            font-size: clamp(2rem, 6vw, 3.2rem);
+            margin: 0 0 10px;
+            text-shadow: 0 0 20px var(--primary);
         }
-
-        .subtitle {
-            color: #94a3b8;
-            margin-bottom: 28px;
-            font-size: 1.1rem;
+        .emoji-big {
+            font-size: 6rem;
+            margin: 20px 0;
+            animation: float 2.5s ease-in-out infinite;
         }
-
+        @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-25px); } }
         .message {
-            background-color: #0f172a;
-            border: 1px dashed #475569;
-            padding: 24px;
-            margin: 28px 0;
-            border-radius: 12px;
-            min-height: 80px;
+            background: #0f172a;
+            border: 2px dashed #475569;
+            border-radius: 16px;
+            padding: 25px;
+            margin: 25px 0;
+            font-size: 1.4rem;
             color: #a5f3fc;
-            font-size: 1.2rem;
+            min-height: 100px;
+            line-height: 1.5;
         }
-
         .buttons {
             display: flex;
             gap: 20px;
             justify-content: center;
-            margin-top: 24px;
             flex-wrap: wrap;
+            margin-top: 30px;
         }
-
         button {
-            padding: 16px 32px;
-            font-family: 'Courier New', monospace;
-            font-size: 1.2rem;
+            padding: 18px 40px;
+            font-size: 1.3rem;
             font-weight: bold;
             border: none;
-            border-radius: 14px;
+            border-radius: 16px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.6);
         }
-
-        .btn-accept {
-            background: linear-gradient(45deg, #10b981, #34d399);
-            color: white;
-        }
-
-        .btn-accept:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.5);
-        }
-
-        .btn-reject {
-            background: linear-gradient(45deg, #ef4444, #f87171);
-            color: white;
-        }
-
-        .btn-reject:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.5);
-        }
-
+        .btn-accept { background: linear-gradient(45deg, var(--success), #34d399); color: white; }
+        .btn-reject { background: linear-gradient(45deg, var(--danger), #f87171); color: white; }
+        button:hover { transform: translateY(-6px); box-shadow: 0 12px 35px rgba(0,0,0,0.7); }
         .btn-play {
             background: linear-gradient(45deg, #a78bfa, #c4b5fd);
-            color: white;
-            margin-top: 24px;
-            padding: 18px 36px;
-            font-size: 1.3rem;
+            margin-top: 30px;
+            padding: 20px 50px;
+            font-size: 1.5rem;
         }
-
-        .emoji-big {
-            font-size: 5rem;
-            margin: 24px 0;
-            animation: float 3s ease-in-out infinite;
+        #final-message .message {
+            color: #34d399;
+            font-weight: bold;
+            font-size: 1.5rem;
         }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        footer {
-            margin-top: 28px;
-            font-size: 0.9rem;
-            color: #64748b;
-        }
-
-        .hidden {
-            display: none;
-        }
-
         #game-container {
-            margin-top: 40px;
-            padding: 24px;
+            margin-top: 30px;
             background: #0f172a;
-            border-radius: 16px;
-            border: 2px solid #475569;
+            border: 3px solid #475569;
+            border-radius: 20px;
+            padding: 25px;
         }
-
         #canvas {
             background: #1e293b;
-            border: 3px solid #38bdf8;
-            border-radius: 12px;
-            box-shadow: 0 0 30px rgba(56, 189, 248, 0.5);
+            border: 4px solid var(--primary);
+            border-radius: 16px;
+            box-shadow: 0 0 40px rgba(56,189,248,0.6);
             display: block;
-            margin: 0 auto;
+            margin: 20px auto;
         }
-
-        #score {
-            font-size: 1.8rem;
-            color: #34d399;
-            margin-bottom: 16px;
-            font-weight: bold;
+        #score { font-size: 2rem; color: #34d399; margin: 15px 0; }
+        footer {
+            margin-top: 30px;
+            font-size: 0.95rem;
+            color: #64748b;
         }
-
-        #game-info {
-            color: #94a3b8;
-            margin-top: 16px;
-            font-size: 1rem;
-        }
-
-        @media (max-width: 768px) {
-            .card {
-                padding: 30px 20px;
-                width: 95vw;
-            }
-            h1 { font-size: 2rem; }
-            .emoji-big { font-size: 4rem; }
-            #canvas { width: 350px !important; height: 350px !important; }
+        .hidden { display: none !important; }
+        @media (max-width: 600px) {
+            .card { padding: 25px 15px; }
+            button { padding: 16px 30px; font-size: 1.1rem; }
+            #canvas { width: 320px !important; height: 320px !important; }
         }
     </style>
 </head>
 <body>
-
     <div class="card">
-        <h1>🎁 AMIGO SECRETO</h1>
-        <p class="subtitle">Sistema de entrega de snack activado...</p>
-
-        <div class="emoji-big">🍪✨</div>
-
-        <div class="message" id="message">
-            Presiona un botón para continuar el protocolo de entrega...
-        </div>
+        <h1>🎁 SNACK SECRETO WILBERT</h1>
+        <div class="emoji-big">🍪✨🐍</div>
+        <p class="message" id="message">
+            Protocolo activado…<br>
+            ¿Aceptas tus 10g sin culpa o te haces el difícil? 😏
+        </p>
 
         <div class="buttons" id="initial-buttons">
-            <button class="btn-accept" id="accept">✅ ACEPTAR SNACK</button>
-            <button class="btn-reject" id="reject">❌ RECHAZAR</button>
+            <button class="btn-accept" id="accept">✅ SÍ, DAME EL SNACK</button>
+            <button class="btn-reject" id="reject">❌ No gracias… (mentira)</button>
         </div>
 
         <div id="final-message" class="hidden">
-            <div class="message" style="color: #34d399; font-weight: bold;">
-                ¡SNACK APROBADO! 🍪⚡<br>
-                <span style="font-size: 1.4rem;">10g sin culpa activados para Wilbert 😎</span><br><br>
-                ¡Come <strong>10 galletas virtuales</strong> para completar el snack perfecto!
+            <div class="message">
+                ¡APROBADO WILBERT! 🔥<br>
+                10g sin culpa + modo dios activado 😎<br><br>
+                <strong>Come las 10 galletas virtuales</strong> y desbloquea el snack real
             </div>
-
-            <button class="btn-play" id="play-game">🎮 JUGAR SNAKE (10 GALLETAS)</button>
+            <button class="btn-play" id="play-game">🎮 JUGAR SNAKE 10 GALLETAS</button>
 
             <div id="game-container" class="hidden">
-                <div id="score">Puntuación: 0 / 10</div>
+                <div id="score">Galletas: 0 / 10</div>
                 <canvas id="canvas" width="500" height="500"></canvas>
-                <p id="game-info">Usa las flechas ←↑→↓ o WASD para moverte 🐍🍪</p>
+                <p style="margin-top:15px; color:#94a3b8;">
+                    Flechas o WASD → Come todas las 🍪 sin chocar
+                </p>
             </div>
         </div>
 
         <footer>
-            // Protocolo secreto ejecutado • Build v3.0 • 10g + Game confirmado ✔️
+            Snack secreto v4.0 • Wilbert edition • 10g garantizados ✔️
         </footer>
     </div>
 
-    <canvas id="confetti-canvas" style="position: fixed; top: 0; left: 0; pointer-events: none; z-index: 1000;"></canvas>
+    <canvas id="confetti-canvas" style="position:fixed;top:0;left:0;pointer-events:none;z-index:9999;"></canvas>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script>
@@ -220,218 +169,152 @@
         const playBtn = document.getElementById('play-game');
         const gameContainer = document.getElementById('game-container');
         const scoreDisplay = document.getElementById('score');
-        const gameInfo = document.getElementById('game-info');
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
 
-        // Ajustar canvas en móvil
-        function resizeCanvas() {
-            if (window.innerWidth < 768) {
-                canvas.width = 350;
-                canvas.height = 350;
-            } else {
-                canvas.width = 500;
-                canvas.height = 500;
-            }
+        // Responsive canvas
+        function resize() {
+            const size = window.innerWidth < 600 ? 320 : 500;
+            canvas.width = size;
+            canvas.height = size;
         }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
+        resize();
+        window.addEventListener('resize', resize);
 
         let rejectCount = 0;
         const GOAL = 10;
-
-        // Confeti setup
-        const confettiCanvas = document.getElementById('confetti-canvas');
-        confettiCanvas.width = window.innerWidth;
-        confettiCanvas.height = window.innerHeight;
-
-        acceptBtn.onclick = function() {
-            message.textContent = "Procesando aceptación... 🍪";
-            initialButtons.classList.add('hidden');
-            
-            setTimeout(() => {
-                message.classList.add('hidden');
-                finalMessage.classList.remove('hidden');
-                
-                confetti({
-                    particleCount: 250,
-                    spread: 100,
-                    origin: { y: 0.6 },
-                    colors: ['#38bdf8', '#10b981', '#a5f3fc', '#34d399', '#fBBf24', '#ef4444']
-                });
-            }, 1000);
-        };
-
-        rejectBtn.onclick = function() {
-            rejectCount++;
-            if (rejectCount === 1) {
-                message.textContent = "¿Rechazar? 😱 Eso no está en el protocolo...";
-            } else if (rejectCount === 2) {
-                message.textContent = "Wilbert, las galletas no se rechazan... 🤨";
-            } else if (rejectCount === 3) {
-                message.textContent = "Ok, ok... pero son 10g SIN CULPA ⚡🍪";
-            } else {
-                message.textContent = "¡Acepta de una vez que se enfrían! 😭";
-                rejectBtn.textContent = "Bueno... aceptar 🥺";
-                rejectBtn.className = 'btn-accept';
-            }
-        };
-
-        // --- JUEGO SNAKE ---
-        const gridSize = 20;
-        let tileCount = canvas.width / gridSize;
-
-        let snake = [{x: 12, y: 12}];
-        let food = {x: 18, y: 18};
-        let dx = 0;
-        let dy = 0;
+        let snake = [{x:10, y:10}];
+        let food = {x:15, y:15};
+        let dx = 0, dy = 0;
         let score = 0;
-        let gameInterval;
         let gameRunning = false;
+        let gameInterval;
 
-        function drawGame() {
+        const gridSize = 20;
+        const tileCount = canvas.width / gridSize;
+
+        function draw() {
             ctx.fillStyle = '#1e293b';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillRect(0,0,canvas.width,canvas.height);
 
-            // Serpiente 🐍
-            snake.forEach((segment, index) => {
+            // Cabeza serpiente
+            snake.forEach((part, i) => {
                 ctx.font = `${gridSize}px monospace`;
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                if (index === 0) {
-                    ctx.fillText('🟢', segment.x * gridSize + gridSize/2, segment.y * gridSize + gridSize/2);
-                } else {
-                    ctx.fillText('🟩', segment.x * gridSize + gridSize/2, segment.y * gridSize + gridSize/2);
-                }
+                ctx.fillText(i === 0 ? '🐍' : '🟩', part.x * gridSize + gridSize/2, part.y * gridSize + gridSize/2);
             });
 
-            // Galleta 🍪
-            ctx.font = `${gridSize}px monospace`;
+            // Galleta
             ctx.fillText('🍪', food.x * gridSize + gridSize/2, food.y * gridSize + gridSize/2);
         }
 
-        function updateGame() {
+        function update() {
             if (dx === 0 && dy === 0) return;
-
             const head = {x: snake[0].x + dx, y: snake[0].y + dy};
 
-            // Colisión paredes
-            if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount) {
-                gameOver();
-                return;
-            }
-
-            // Colisión propia
-            if (snake.some(segment => segment.x === head.x && segment.y === head.y)) {
+            // Choque pared o cuerpo
+            if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount ||
+                snake.some(p => p.x === head.x && p.y === head.y)) {
                 gameOver();
                 return;
             }
 
             snake.unshift(head);
 
-            // Comer
             if (head.x === food.x && head.y === food.y) {
                 score++;
-                scoreDisplay.textContent = `Puntuación: ${score} / ${GOAL}`;
-                
-                // Nueva galleta (evitar serpiente)
+                scoreDisplay.textContent = `Galletas: ${score} / ${GOAL}`;
+                confetti({ particleCount: 80, spread: 60, origin: { y: 0.7 } });
+
                 do {
-                    food = {
-                        x: Math.floor(Math.random() * tileCount),
-                        y: Math.floor(Math.random() * tileCount)
-                    };
-                } while (snake.some(segment => segment.x === food.x && segment.y === food.y));
+                    food = { x: Math.floor(Math.random()*tileCount), y: Math.floor(Math.random()*tileCount) };
+                } while (snake.some(p => p.x === food.x && p.y === food.y));
 
-                // Confeti al comer
-                confetti({
-                    particleCount: 50,
-                    spread: 70,
-                    origin: { x: 0.5, y: 0.75 },
-                    colors: ['#fBBf24', '#34d399']
-                });
-
-                // ¡VICTORIA!
                 if (score >= GOAL) {
-                    clearInterval(gameInterval);
-                    gameRunning = false;
-                    confetti({
-                        particleCount: 300,
-                        angle: 60,
-                        spread: 55,
-                        origin: { x: 0 },
-                        colors: ['#38bdf8', '#10b981']
-                    });
-                    confetti({
-                        particleCount: 300,
-                        angle: 120,
-                        spread: 55,
-                        origin: { x: 1 },
-                        colors: ['#a5f3fc', '#34d399']
-                    });
-                    gameInfo.innerHTML = `¡ÉXITO TOTAL! 🎉 Has comido ${score} galletas 🍪<br>¡10g SIN CULPA completados! 😎<br><button onclick="location.reload()" style="background: linear-gradient(45deg, #10b981, #34d399); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px;">🔄 Jugar de nuevo</button>`;
-                    scoreDisplay.textContent = `¡GANASTE! ${score} galletas`;
+                    winGame();
                     return;
                 }
             } else {
                 snake.pop();
             }
-
-            drawGame();
+            draw();
         }
 
         function gameOver() {
             clearInterval(gameInterval);
             gameRunning = false;
-            alert(`¡Game Over! 😵\nPuntuación: ${score} / ${GOAL} galletas 🍪\n¡Sigue intentando llegar a 10g!`);
+            alert(`¡Perdiste! 😵 ${score} galletas\nInténtalo de nuevo Wilbert`);
             resetGame();
+        }
+
+        function winGame() {
+            clearInterval(gameInterval);
+            gameRunning = false;
+            confetti({ particleCount: 400, spread: 100, origin: { y: 0.6 } });
+            gameContainer.innerHTML += `
+                <div style="font-size:2rem;color:#34d399;margin-top:20px;">
+                    ¡GANASTE WILBERT! 🎉<br>
+                    10 galletas + 10g sin culpa desbloqueados 😎<br><br>
+                    <button onclick="location.reload()" style="padding:15px 40px;background:linear-gradient(45deg,#10b981,#34d399);color:white;border:none;border-radius:12px;font-size:1.3rem;cursor:pointer;">
+                        Volver a jugar
+                    </button>
+                </div>`;
+            scoreDisplay.textContent = `¡10/10! GANASTE`;
         }
 
         function resetGame() {
             snake = [{x: Math.floor(tileCount/2), y: Math.floor(tileCount/2)}];
-            food = {x: Math.floor(tileCount * 0.7), y: Math.floor(tileCount * 0.7)};
-            dx = 0;
-            dy = 0;
+            food = {x: Math.floor(tileCount*0.7), y: Math.floor(tileCount*0.7)};
+            dx = dy = 0;
             score = 0;
-            scoreDisplay.textContent = `Puntuación: ${score} / ${GOAL}`;
-            gameInfo.innerHTML = 'Usa las flechas ←↑→↓ o WASD para moverte 🐍🍪';
-            drawGame();
+            scoreDisplay.textContent = `Galletas: 0 / ${GOAL}`;
+            draw();
         }
 
-        playBtn.onclick = function() {
+        // Botones
+        acceptBtn.onclick = () => {
+            message.textContent = "¡Procesando… tu snack está listo! 🍪⚡";
+            initialButtons.classList.add('hidden');
+            setTimeout(() => {
+                message.classList.add('hidden');
+                finalMessage.classList.remove('hidden');
+                confetti({ particleCount: 300, spread: 90 });
+            }, 1200);
+        };
+
+        rejectBtn.onclick = () => {
+            rejectCount++;
+            if (rejectCount === 1) message.textContent = "No te hagas el difícil… sabes que quieres";
+            else if (rejectCount === 2) message.textContent = "Wilbert… las galletas te están mirando 😢";
+            else if (rejectCount === 3) {
+                message.textContent = "Ok, tú ganas… pero acepta ya anda 🥺";
+                rejectBtn.textContent = "Bueno… dame el snack";
+                rejectBtn.className = 'btn-accept';
+            } else {
+                acceptBtn.click();
+            }
+        };
+
+        playBtn.onclick = () => {
             gameContainer.classList.remove('hidden');
             resetGame();
             gameRunning = true;
-            gameInterval = setInterval(updateGame, 140); // Velocidad divertida
+            gameInterval = setInterval(update, 120); // más rápido y divertido
+            draw();
         };
 
-        // Controles
         document.addEventListener('keydown', e => {
             if (!gameRunning) return;
-            switch (e.key) {
-                case 'ArrowUp':
-                case 'w':
-                case 'W':
-                    if (dy !== 1) { dx = 0; dy = -1; }
-                    break;
-                case 'ArrowDown':
-                case 's':
-                case 'S':
-                    if (dy !== -1) { dx = 0; dy = 1; }
-                    break;
-                case 'ArrowLeft':
-                case 'a':
-                case 'A':
-                    if (dx !== 1) { dx = -1; dy = 0; }
-                    break;
-                case 'ArrowRight':
-                case 'd':
-                case 'D':
-                    if (dx !== -1) { dx = 1; dy = 0; }
-                    break;
+            switch (e.key.toLowerCase()) {
+                case 'arrowup': case 'w': if (dy !== 1) { dx=0; dy=-1; } break;
+                case 'arrowdown': case 's': if (dy !== -1) { dx=0; dy=1; } break;
+                case 'arrowleft': case 'a': if (dx !== 1) { dx=-1; dy=0; } break;
+                case 'arrowright': case 'd': if (dx !== -1) { dx=1; dy=0; } break;
             }
         });
 
-        drawGame();
+        draw();
     </script>
 </body>
 </html>
