@@ -2,297 +2,194 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Snack Secreto Épico para Wilbert</title>
+    <title>Snack Secreto para Wilbert</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        :root {
-            --primary: #38bdf8;
-            --success: #10b981;
-            --danger: #ef4444;
-            --bg: #0f172a;
-            --card: #020617;
-        }
         body {
             font-family: 'Courier New', monospace;
             background: linear-gradient(135deg, #0f172a, #1e293b);
             color: #e5e7eb;
-            min-height: 100vh;
-            margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 15px;
-            overflow-x: hidden;
-            touch-action: manipulation;
-        }
-        .card {
-            background: var(--card);
-            border: 3px solid #334155;
-            border-radius: 24px;
-            padding: 40px 25px;
-            width: 100%;
-            max-width: 720px;
-            text-align: center;
-            box-shadow: 0 0 60px rgba(56,189,248,0.5);
-            position: relative;
+            min-height: 100vh;
+            margin: 0;
             overflow: hidden;
-            transition: all 0.4s ease;
+            position: relative;
         }
-        h1 {
-            color: var(--primary);
-            font-size: clamp(2rem, 6vw, 3.2rem);
-            margin: 0 0 10px;
-            text-shadow: 0 0 20px var(--primary);
-        }
-        .emoji-big {
-            font-size: 6rem;
-            margin: 20px 0;
-            animation: float 2.5s ease-in-out infinite;
-        }
-        @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-25px); } }
-        .message {
-            background: #0f172a;
-            border: 2px dashed #475569;
+
+        .card {
+            background-color: #020617;
+            border: 2px solid #334155;
             border-radius: 16px;
-            padding: 25px;
-            margin: 25px 0;
-            font-size: 1.4rem;
-            color: #a5f3fc;
-            line-height: 1.5;
+            padding: 32px;
+            max-width: 420px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(56, 189, 248, 0.3);
+            transition: transform 0.3s ease;
         }
+
+        .card:hover {
+            transform: scale(1.03);
+        }
+
+        h1 {
+            color: #38bdf8;
+            margin-bottom: 8px;
+            font-size: 2rem;
+            text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            margin-bottom: 24px;
+        }
+
+        .message {
+            background-color: #0f172a;
+            border: 1px dashed #475569;
+            padding: 20px;
+            margin: 24px 0;
+            border-radius: 10px;
+            min-height: 80px;
+            color: #a5f3fc;
+            font-size: 1.1rem;
+        }
+
         .buttons {
             display: flex;
-            gap: 20px;
+            gap: 16px;
             justify-content: center;
+            margin-top: 20px;
             flex-wrap: wrap;
-            margin-top: 30px;
         }
+
         button {
-            padding: 18px 40px;
-            font-size: 1.3rem;
+            padding: 14px 28px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
             font-weight: bold;
             border: none;
-            border-radius: 16px;
+            border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.6);
-            user-select: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
         }
-        .btn-accept { background: linear-gradient(45deg, var(--success), #34d399); color: white; }
-        .btn-reject { background: linear-gradient(45deg, var(--danger), #f87171); color: white; }
-        button:hover { transform: translateY(-6px); box-shadow: 0 12px 35px rgba(0,0,0,0.7); }
-        #animation-container {
-            margin-top: 30px;
-            background: #0f172a;
-            border: 3px solid #475569;
-            border-radius: 20px;
-            padding: 25px;
+
+        .btn-accept {
+            background: linear-gradient(45deg, #10b981, #34d399);
+            color: white;
         }
-        #canvas {
-            background: #1e293b;
-            border: 4px solid var(--primary);
-            border-radius: 16px;
-            box-shadow: 0 0 40px rgba(56,189,248,0.6);
-            display: block;
-            margin: 20px auto;
+
+        .btn-accept:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
         }
-        #score { 
-            font-size: 2rem; 
-            color: #34d399; 
-            margin: 15px 0; 
+
+        .btn-reject {
+            background: linear-gradient(45deg, #ef4444, #f87171);
+            color: white;
         }
+
+        .btn-reject:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
+        }
+
+        .emoji-big {
+            font-size: 4rem;
+            margin: 20px 0;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
         footer {
-            margin-top: 40px;
-            font-size: 0.95rem;
+            margin-top: 24px;
+            font-size: 0.85rem;
             color: #64748b;
         }
-        .hidden { display: none !important; }
-        @media (max-width: 600px) {
-            .card { padding: 25px 15px; }
-            button { padding: 16px 30px; font-size: 1.1rem; }
-            #canvas { width: 320px !important; height: 320px !important; }
+
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
+
     <div class="card">
-        <h1>🎁 SNACK SECRETO WILBERT</h1>
-        <div class="emoji-big">🍪✨🐍</div>
-        <p class="message" id="message">
-            Protocolo activado…<br>
-            ¿Aceptas tus 10g sin culpa o te haces el difícil? 😏
-        </p>
-        <div class="buttons" id="initial-buttons">
-            <button class="btn-accept" id="accept">✅ SÍ, DAME EL SNACK</button>
-            <button class="btn-reject" id="reject">❌ No gracias… (mentira)</button>
+        <h1>🎁 AMIGO SECRETO</h1>
+        <p class="subtitle">Sistema de entrega de snack activado...</p>
+
+        <div class="emoji-big">🍪✨</div>
+
+        <div class="message" id="message">
+            Presiona un botón para continuar el protocolo de entrega...
         </div>
 
-        <div id="final-message" class="hidden">
-            <div class="message">
-                ¡APROBADO WILBERT! 🔥<br>
-                10g sin culpa + modo dios activado 😎<br><br>
-                <strong>Mira cómo la serpiente se come tus 10 galletas virtuales</strong> 🍪🍪🍪
-            </div>
+        <div class="buttons">
+            <button class="btn-accept" id="accept">✅ ACEPTAR SNACK</button>
+            <button class="btn-reject" id="reject">❌ RECHAZAR</button>
+        </div>
 
-            <!-- Animación automática justo después del mensaje -->
-            <div id="animation-container">
-                <div id="score">Galletas comidas: 0 / 10</div>
-                <canvas id="canvas" width="500" height="500"></canvas>
-            </div>
+        <div id="final-message" class="hidden message" style="margin-top: 20px; color: #34d399; font-weight: bold;">
+            ¡SNACK APROBADO! 🍪⚡<br>
+            <span style="font-size: 1.3rem;">10g sin culpa activados para Wilbert 😎</span><br><br>
+            Disfruta responsablemente.
         </div>
 
         <footer>
-            Snack secreto v5.1 • Wilbert edition • 10g garantizados automáticamente ✔️
+            // Protocolo secreto ejecutado • Build v1.0 • Snack confirmado ✔️
         </footer>
     </div>
 
-    <canvas id="confetti-canvas" style="position:fixed;top:0;left:0;pointer-events:none;z-index:9999;"></canvas>
+    <!-- Confeti simple con canvas -->
+    <canvas id="confetti"></canvas>
+
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script>
         const message = document.getElementById('message');
         const acceptBtn = document.getElementById('accept');
         const rejectBtn = document.getElementById('reject');
-        const initialButtons = document.getElementById('initial-buttons');
         const finalMessage = document.getElementById('final-message');
-        const animationContainer = document.getElementById('animation-container');
-        const scoreDisplay = document.getElementById('score');
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
+        const buttons = document.querySelector('.buttons');
 
-        // Responsive canvas
-        function resizeCanvas() {
-            const size = window.innerWidth < 600 ? 320 : 500;
-            canvas.width = size;
-            canvas.height = size;
-        }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-
-        const GOAL = 10;
-        const gridSize = 20;
-        let tileCount;
-        let snake = [];
-        let foods = [];
-        let score = 0;
-        let animationInterval;
-
-        function initAnimation() {
-            tileCount = canvas.width / gridSize;
-            snake = [{x: 2, y: Math.floor(tileCount / 2)}];
-            foods = [];
-            score = 0;
-            scoreDisplay.textContent = `Galletas comidas: 0 / ${GOAL}`;
-
-            // Colocar 10 galletas en patrón zigzag horizontal
-            let x = 8;
-            let y = Math.floor(tileCount / 2);
-            for (let i = 0; i < GOAL; i++) {
-                foods.push({x, y});
-                x += 4;
-                if (x >= tileCount - 4) {
-                    x = 8;
-                    y += 3;
-                    if (y >= tileCount - 2) y = Math.floor(tileCount / 2);
-                }
-            }
-            draw();
-        }
-
-        function draw() {
-            ctx.fillStyle = '#1e293b';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            // Serpiente
-            snake.forEach((part, i) => {
-                ctx.font = `${gridSize}px monospace`;
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText(i === 0 ? '🐍' : '🟩', part.x * gridSize + gridSize / 2, part.y * gridSize + gridSize / 2);
-            });
-
-            // Galletas
-            foods.forEach(food => {
-                ctx.fillText('🍪', food.x * gridSize + gridSize / 2, food.y * gridSize + gridSize / 2);
-            });
-        }
-
-        function animate() {
-            if (foods.length === 0) {
-                clearInterval(animationInterval);
-                setTimeout(() => {
-                    confetti({ particleCount: 400, spread: 100, origin: { y: 0.6 } });
-                    animationContainer.innerHTML += `
-                        <div style="font-size:2rem;color:#34d399;margin-top:20px;">
-                            ¡LISTO WILBERT! 🎉<br>
-                            10 galletas devoradas + 10g sin culpa desbloqueados 😎<br><br>
-                            <button onclick="location.reload()" style="padding:15px 40px;background:linear-gradient(45deg,#10b981,#34d399);color:white;border:none;border-radius:12px;font-size:1.3rem;cursor:pointer;">
-                                Ver otra vez
-                            </button>
-                        </div>`;
-                    scoreDisplay.textContent = `¡10/10! SNACK DESBLOQUEADO`;
-                }, 500);
-                return;
-            }
-
-            const target = foods[0];
-            const head = snake[0];
-            let dx = 0, dy = 0;
-            if (head.x < target.x) dx = 1;
-            else if (head.x > target.x) dx = -1;
-            else if (head.y < target.y) dy = 1;
-            else if (head.y > target.y) dy = -1;
-
-            const newHead = {x: head.x + dx, y: head.y + dy};
-            snake.unshift(newHead);
-
-            if (newHead.x === target.x && newHead.y === target.y) {
-                score++;
-                scoreDisplay.textContent = `Galletas comidas: ${score} / ${GOAL}`;
-                foods.shift();
-                confetti({ particleCount: 60, spread: 70, origin: { x: 0.5, y: 0.7 } });
-            } else {
-                snake.pop();
-            }
-
-            draw();
-        }
-
-        function startAnimation() {
-            initAnimation();
-            animationInterval = setInterval(animate, 300);
-        }
-
-        // Botones
         let rejectCount = 0;
 
-        acceptBtn.onclick = () => {
-            message.textContent = "¡Procesando… tu snack está listo! 🍪⚡";
-            initialButtons.classList.add('hidden');
+        acceptBtn.onclick = function() {
+            message.textContent = "Procesando aceptación... 🍪";
+            buttons.classList.add('hidden');
+            
             setTimeout(() => {
                 message.classList.add('hidden');
                 finalMessage.classList.remove('hidden');
-                confetti({ particleCount: 300, spread: 90 });
-                // Iniciar animación automáticamente
-                setTimeout(startAnimation, 800);
-            }, 1200);
+                
+                // ¡Confeti!
+                confetti({
+                    particleCount: 150,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ['#38bdf8', '#10b981', '#a5f3fc', '#34d399']
+                });
+            }, 1000);
         };
 
-        rejectBtn.onclick = () => {
+        rejectBtn.onclick = function() {
             rejectCount++;
-            if (rejectCount === 1) message.textContent = "No te hagas el difícil… sabes que quieres";
-            else if (rejectCount === 2) message.textContent = "Wilbert… las galletas te están mirando 😢";
-            else if (rejectCount === 3) {
-                message.textContent = "Ok, tú ganas… pero acepta ya anda 🥺";
-                rejectBtn.textContent = "Bueno… dame el snack";
-                rejectBtn.className = 'btn-accept';
+            if (rejectCount === 1) {
+                message.textContent = "¿Rechazar? 😱 Eso no está en el protocolo...";
+            } else if (rejectCount === 2) {
+                message.textContent = "Wilbert, las galletas no se rechazan... 🤨";
+            } else if (rejectCount === 3) {
+                message.textContent = "Ok, ok... pero son 10g SIN CULPA ⚡🍪";
             } else {
-                acceptBtn.click();
+                message.textContent = "¡Acepta de una vez que se enfrían! 😭";
+                rejectBtn.textContent = "Bueno... aceptar 🥺";
             }
         };
-
-        // Fondo inicial del canvas
-        ctx.fillStyle = '#1e293b';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
     </script>
 </body>
 </html>
